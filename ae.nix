@@ -1,5 +1,6 @@
 { lib,
-  stdenvNoCC,
+  #stdenvNoCC,
+  stdenv,
   fetchpatch,
   fetchurl,
   fetchFromGitHub,
@@ -26,7 +27,7 @@
   which
 }:
 
-stdenvNoCC.mkDerivation {
+stdenv.mkDerivation {
   pname = "sgxae";
   version = "2.14a0";
   src = fetchFromGitHub {
@@ -62,9 +63,9 @@ stdenvNoCC.mkDerivation {
     cmake
     file
     flex
-    gcc
+    #gcc
     git
-    gnumake
+    #gnumake
     gnum4
     libtool
     ocaml

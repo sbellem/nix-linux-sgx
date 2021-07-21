@@ -1,5 +1,6 @@
 { lib,
-  stdenvNoCC,
+  #stdenvNoCC,
+  stdenv,
   fetchpatch,
   fetchurl,
   fetchFromGitHub,
@@ -24,7 +25,8 @@
   texinfo,
 }:
 
-stdenvNoCC.mkDerivation {
+#stdenvNoCC.mkDerivation {
+stdenv.mkDerivation {
   pname = "sgx-sdk";
   version = "2.14a0";
   src = fetchFromGitHub {
@@ -52,26 +54,28 @@ stdenvNoCC.mkDerivation {
       sha256 = "1q9rsygm92kiwdj81yxp9q182rgb19kxir2m2r9l73hxwfz1cc0a";
     })
   ];
-  buildInputs = [
+  nativeBuildInputs = [
     autoconf
     automake
+    cmake
+    libtool
+    git
+    gnum4
+    nasm
+  ];
+  buildInputs = [
     binutils
     bison
-    cmake
     file
     flex
-    gcc
-    git
-    gnumake
-    gnum4
-    libtool
+    #gcc
+    #gnumake
     ocaml
     ocamlPackages.ocamlbuild
     openssl
     perl
     python3
     texinfo
-    nasm
   ];
   preBuild = ''
     export BINUTILS_DIR=${binutils}/bin

@@ -1,5 +1,6 @@
 { lib,
-  stdenvNoCC,
+  #stdenvNoCC,
+  stdenv,
   fetchpatch,
   fetchurl,
   fetchFromGitHub,
@@ -10,9 +11,9 @@
   cmake,
   file,
   flex,
-  gcc,
+  #gcc,
   git,
-  gnumake,
+  #gnumake,
   gnum4,
   libtool,
   nasm,
@@ -24,7 +25,8 @@
   texinfo
 }:
 
-stdenvNoCC.mkDerivation {
+#stdenvNoCC.mkDerivation {
+stdenv.mkDerivation {
   pname = "ippcrypto";
   version = "ippcp_2020u3";
   src = fetchFromGitHub {
@@ -46,26 +48,28 @@ stdenvNoCC.mkDerivation {
       sha256 = "1q9rsygm92kiwdj81yxp9q182rgb19kxir2m2r9l73hxwfz1cc0a";
     })
   ];
-  buildInputs = [
-    binutils
+  nativeBuildInputs = [
     autoconf
     automake
+    cmake
     libtool
+    git
+    gnum4
+    nasm
+  ];
+  buildInputs = [
+    binutils
     ocaml
     ocamlPackages.ocamlbuild
     file
-    cmake
-    gnum4
     openssl
-    gcc
-    gnumake
+    #gcc
+    #gnumake
     texinfo
     bison
     flex
     perl
     python3
-    git
-    nasm
   ];
   dontConfigure = true;
   # sgx expects binutils to be under /usr/local/bin by default
