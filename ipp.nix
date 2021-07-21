@@ -1,31 +1,27 @@
-{ lib,
-  #stdenvNoCC,
-  stdenv,
-  fetchpatch,
-  fetchurl,
-  fetchFromGitHub,
-  autoconf,
-  automake,
-  binutils,
-  bison,
-  cmake,
-  file,
-  flex,
-  #gcc,
-  git,
-  #gnumake,
-  gnum4,
-  libtool,
-  nasm,
-  ocaml,
-  ocamlPackages,
-  openssl,
-  perl,
-  python3,
-  texinfo
+{ lib
+, stdenv
+, fetchpatch
+, fetchurl
+, fetchFromGitHub
+, autoconf
+, automake
+, binutils
+, bison
+, cmake
+, file
+, flex
+, git
+, gnum4
+, libtool
+, nasm
+, ocaml
+, ocamlPackages
+, openssl
+, perl
+, python3
+, texinfo
 }:
 
-#stdenvNoCC.mkDerivation {
 stdenv.mkDerivation {
   pname = "ippcrypto";
   version = "ippcp_2020u3";
@@ -39,13 +35,18 @@ stdenv.mkDerivation {
   patches = [
     (fetchpatch {
       name = "replace-bin-cp-with-cp.patch";
-      url = "https://github.com/intel/linux-sgx/pull/730.patch";
+      url = "https://github.com/intel/linux-sgx/commit/e0db5291d46d1c124980719d63829d65f89cf2c7.patch";
       sha256 = "0xwlpm1r4rl4anfhjkr6fgz0gcyhr0ng46fv8iw9hfsh891yqb7z";
     })
     (fetchpatch {
+      name = "sgx_ippcp.h.patch";
+      url = "https://github.com/intel/linux-sgx/commit/e5929083f8161a8e7404afc0577936003fbb9d0b.patch";
+      sha256 = "12bgs9rxlq82hn5prl9qz2r4mwypink8hzdz4cki4k4cmkw961f5";
+    })
+    (fetchpatch {
       name = "ipp-crypto-makefile.patch";
-      url = "https://github.com/intel/linux-sgx/pull/731.patch";
-      sha256 = "1q9rsygm92kiwdj81yxp9q182rgb19kxir2m2r9l73hxwfz1cc0a";
+      url = "https://github.com/intel/linux-sgx/commit/b1e1b2e9743c21460c7ab7637099818f656f9dd3.patch";
+      sha256 = "14h6xkk7m89mkjc75r8parll8pmq493incq5snwswsbdzibrdi68";
     })
   ];
   nativeBuildInputs = [
@@ -56,15 +57,13 @@ stdenv.mkDerivation {
     git
     gnum4
     nasm
+    ocaml
+    ocamlPackages.ocamlbuild
   ];
   buildInputs = [
     binutils
-    ocaml
-    ocamlPackages.ocamlbuild
     file
     openssl
-    #gcc
-    #gnumake
     texinfo
     bison
     flex
@@ -94,7 +93,7 @@ stdenv.mkDerivation {
     cp -r ./license $out/license
     ls -l ./inc/
   '';
-  dontFixup = true;
+  #dontFixup = true;
 
   meta = with lib; {
     description = "Intel IPP Crypto library for SGX";
