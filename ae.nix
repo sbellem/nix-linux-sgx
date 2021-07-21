@@ -27,12 +27,12 @@
 
 stdenvNoCC.mkDerivation {
   pname = "sgxae";
-  version = "2.13.3a0";
+  version = "2.14a0";
   src = fetchFromGitHub {
     owner = "sbellem";
     repo = "linux-sgx";
-    rev = "e6036d6edb4371f2acc64c50b7cb51e9dfa439a4";
-    sha256 = "0znallianv3lp3y62cfdgp8gacpw516qg8cjxhz8bj5lv5qghchk";
+    rev = "9e87641bffc79953c977cedd138149b5fd9284d8";
+    sha256 = "10qxq7zclwlwwq09gvqra34v7zk11cab54xmxcphgqckmsr2hvr2";
     fetchSubmodules = true;
   };
   dontConfigure = true;
