@@ -57,23 +57,23 @@ stdenv.mkDerivation {
   nativeBuildInputs = [
     autoconf
     automake
+    bison
     cmake
     libtool
+    file
+    flex
     git
     gnum4
     nasm
     ocaml
     ocamlPackages.ocamlbuild
+    openssl
+    perl
+    texinfo
   ];
   buildInputs = [
     binutils
-    bison
-    file
-    flex
-    openssl
-    perl
     python3
-    texinfo
   ];
   preBuild = ''
     export BINUTILS_DIR=${binutils}/bin
@@ -99,7 +99,6 @@ stdenv.mkDerivation {
   installPhase = ''
     echo -e 'no\n'$out | ./linux/installer/bin/sgx_linux_x64_sdk_*.bin
   '';
-  #dontFixup = true;
 
   meta = with lib; {
     description = "Intel SGX SDK for Linux built with IPP Crypto Library";

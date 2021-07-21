@@ -52,22 +52,22 @@ stdenv.mkDerivation {
   nativeBuildInputs = [
     autoconf
     automake
+    bison
     cmake
-    libtool
+    file
+    flex
     git
     gnum4
+    libtool
     nasm
     ocaml
     ocamlPackages.ocamlbuild
+    openssl
+    perl
+    texinfo
   ];
   buildInputs = [
     binutils
-    file
-    openssl
-    texinfo
-    bison
-    flex
-    perl
     python3
   ];
   dontConfigure = true;
@@ -94,7 +94,6 @@ stdenv.mkDerivation {
     cp -r ./license $out/license
     ls -l ./inc/
   '';
-  #dontFixup = true;
 
   meta = with lib; {
     description = "Intel IPP Crypto library for SGX";
