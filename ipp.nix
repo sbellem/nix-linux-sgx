@@ -71,7 +71,7 @@ stdenvNoCC.mkDerivation {
   # sgx expects binutils to be under /usr/local/bin by default
   preBuild = ''
     export BINUTILS_DIR=${binutils}/bin
-    '';
+  '';
   buildPhase = ''
     runHook preBuild
 
@@ -82,15 +82,14 @@ stdenvNoCC.mkDerivation {
     make MITIGATION-CVE-2020-0551=CF
 
     runHook postBuild
-    '';
-  postBuild = ''
+  '';
+  installPhase = ''
     mkdir -p $out
     cp -r ./lib $out/lib
     cp -r ./inc $out/inc
     cp -r ./license $out/license
     ls -l ./inc/
   '';
-  dontInstall = true;
   dontFixup = true;
 
   meta = with lib; {

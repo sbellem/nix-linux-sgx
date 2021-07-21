@@ -25,7 +25,7 @@
 }:
 
 stdenvNoCC.mkDerivation {
-  pname = "sgxsdk";
+  pname = "sgx-sdk";
   version = "2.14a0";
   src = fetchFromGitHub {
     owner = "intel";
@@ -75,7 +75,7 @@ stdenvNoCC.mkDerivation {
   ];
   preBuild = ''
     export BINUTILS_DIR=${binutils}/bin
-    '';
+  '';
   buildPhase = ''
     runHook preBuild
 
@@ -90,13 +90,13 @@ stdenvNoCC.mkDerivation {
     make sdk_install_pkg
 
     runHook postBuild
-    '';
+  '';
   postBuild = ''
     patchShebangs ./linux/installer/bin/sgx_linux_x64_sdk_*.bin
-    '';
+  '';
   installPhase = ''
     echo -e 'no\n'$out | ./linux/installer/bin/sgx_linux_x64_sdk_*.bin
-    '';
+  '';
   dontFixup = true;
 
   meta = with lib; {
