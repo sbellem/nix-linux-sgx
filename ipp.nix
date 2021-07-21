@@ -80,6 +80,7 @@ stdenv.mkDerivation {
 
     cd external/ippcp_internal/
     make
+    make clean
     make MITIGATION-CVE-2020-0551=LOAD
     make clean
     make MITIGATION-CVE-2020-0551=CF
