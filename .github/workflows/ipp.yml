@@ -1,0 +1,60 @@
+name: Build Linux SGX SDK, IPP-Crypto and AEs
+
+on:
+  push:
+    branches: [ ippcrypto ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build_ipp-crypto:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install nix from cachix
+        uses: cachix/install-nix-action@v13
+        with:
+          nix_path: nixpkgs=channel:nixos-21.05
+      - name: Install cachix
+        uses: cachix/cachix-action@v10
+        with:
+          name: sgx
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - run: nix-build -A ipp-crypto
+  build_ipp-crypto-with-load-mitigation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install nix from cachix
+        uses: cachix/install-nix-action@v13
+        with:
+          nix_path: nixpkgs=channel:nixos-21.05
+      - name: Install cachix
+        uses: cachix/cachix-action@v10
+        with:
+          name: sgx
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - run: nix-build -A ipp-crypto-with-load-mitigation
+  build_ipp-crypto-with-branch-mitigation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install nix from cachix
+        uses: cachix/install-nix-action@v13
+        with:
+          nix_path: nixpkgs=channel:nixos-21.05
+      - name: Install cachix
+        uses: cachix/cachix-action@v10
+        with:
+          name: sgx
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - run: nix-build -A ipp-crypto-with-branch-mitigation

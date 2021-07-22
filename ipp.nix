@@ -20,7 +20,10 @@
 , perl
 , python3
 , texinfo
+, mitigation ? null
 }:
+
+assert lib.assertOneOf "mitigation" mitigation [ null "LOAD" "CF" ];
 
 stdenv.mkDerivation {
   pname = "ippcrypto";
@@ -71,22 +74,15 @@ stdenv.mkDerivation {
     python3
   ];
   dontConfigure = true;
+
   # sgx expects binutils to be under /usr/local/bin by default
   preBuild = ''
     export BINUTILS_DIR=${binutils}/bin
-  '';
-  buildPhase = ''
-    runHook preBuild
-
     cd external/ippcp_internal/
-    make
-    make clean
-    make MITIGATION-CVE-2020-0551=LOAD
-    make clean
-    make MITIGATION-CVE-2020-0551=CF
-
-    runHook postBuild
   '';
+
+  buildFlags = if mitigation != null then [ "MITIGATION-CVE-2020-0551=$(mitigation)" ] else [];
+
   installPhase = ''
     mkdir -p $out
     cp -r ./lib $out/lib
